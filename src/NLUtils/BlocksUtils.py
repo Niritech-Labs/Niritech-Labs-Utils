@@ -79,6 +79,19 @@ class Block:
     def DeleteAllParams(self):
         self.params = []
 
+    def resetLevel(self):
+        self.level = 1
+        for block in self.blocks:
+            block.resetLevel()
+
+    def updateLevel(self):
+        for block in self.blocks:
+            block.level += self.level
+            block.updateLevel()
+
+    def GetName(self):
+        return self.name
+
             
     def ToStr(self)-> str:
         blockTabs = '' if self.level == 1 else '        '*(self.level-1)
@@ -179,6 +192,9 @@ class Blocks:
     def DeleteAllParams(self):
         self.params = []
 
+    def GetName(self):
+        return self.name
+
    
     @staticmethod
     def FromStr(data: str) -> 'Blocks':
@@ -262,8 +278,16 @@ class Blocks:
     
         return root
 
-        
+    def resetLevel(self):
+        self.level = 1
+        for block in self.blocks:
+            block.resetLevel()
 
+    def UpdateLevel(self):
+        self.resetLevel()
+        for block in self.blocks:
+            block.level += self.level
+            block.updateLevel()
 
 
 
@@ -286,6 +310,17 @@ class Blocks:
             blocks += '\n'
 
         return blocks
+
+    def AddNewRootBlock(self,name):
+        block = Block(self.name)
+        block.params = self.params
+        block.blocks = self.blocks
+        self.params = []
+        self.blocks = []
+        self.name = name
+        self.AddBlock(block)
+        self.UpdateLevel()
+
 
 
 
