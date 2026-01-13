@@ -55,6 +55,18 @@ class Block:
         else:
             return None
         
+    def DeleteMarkedObjects(self):
+        for param in list(self.params):
+            if param[0] == None:
+                self.params.remove(param)
+        for block in list(self.blocks):
+            block.DeleteMarkedObjects()
+            if block.name == None:
+                self.blocks.remove(block)
+        
+
+
+        
     def FindBlock(self,name:str) -> None | list:
         blocks = []
         for block in self.blocks:
@@ -70,11 +82,12 @@ class Block:
         block.level += self.level
         self.blocks.append(block)
 
-    def AddParam(self,param:list[list]):
+    def AddParam(self,param:list):
         self.params.append(param)
 
     def DeleteAllBlocks(self):
         self.blocks = []
+
 
     def DeleteAllParams(self):
         self.params = []
@@ -141,6 +154,15 @@ class Blocks:
         else:
             return None
         
+    def DeleteMarkedObjects(self):
+        for param in list(self.params):
+            if param[0] == None:
+                self.params.remove(param)
+        for block in list(self.blocks):
+            block.DeleteMarkedObjects()
+            if block.name == None:
+                self.blocks.remove(block)
+        
     def FindParam(self,name:str) -> None | list:
         """Recursive find"""
         params = []
@@ -183,7 +205,7 @@ class Blocks:
         block.level += self.level
         self.blocks.append(block)
 
-    def AddParam(self,param:list[list]):
+    def AddParam(self,param:list):
         self.params.append(param)
 
     def DeleteAllBlocks(self):
